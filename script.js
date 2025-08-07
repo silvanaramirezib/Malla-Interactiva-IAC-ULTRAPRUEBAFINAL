@@ -1,17 +1,40 @@
-// Organización en años: 5 años, 10 semestres
 const anos = [
-  {nombre:"Año 1", semestres:["MAT060","EFI100","ACA260","IAC001","FIS100","MAT070","IWI131",
-                              "MAT061","MAT071","EFI101","FIS109","HRW1","IAC002","QUI010"]},
-  {nombre:"Año 2", semestres:["ICS001","DEW0","FIS119","HRW2","ACA261","MAT023",
-                              "ICS002","FIS129","HRW3","ACA262","MAT032","IAC003"]},
-  {nombre:"Año 3", semestres:["IAC005","IAC004","IAC006","ICS010","ICS009","ACA263","ACA264",
-  "IAC007","ICS015","IAC009","ICS013","IAC008"]},
-  {nombre:"Año 4", semestres:["IAC013","IAC014","IAC012","ACA265","IAC011","IAC010",
-                              "IAC017","ACA266","IAC015","IAC018","IAC016","IAC019"]},
-  {nombre:"Año 5", semestres:["IAC023","IAC021","IAC022","IAC024","IAC020","IAC025",
-                              "IAC027","IAC028","IAC029","IAC030","IAC026","IAC031"]},
+  {
+    nombre: "Año 1",
+    semestres: [
+      ["MAT060","EFI100","ACA260","IAC001","FIS100","MAT070","IWI131"],
+      ["MAT061","MAT071","EFI101","FIS109","HRW1","IAC002","QUI010"]
+    ]
+  },
+  {
+    nombre: "Año 2",
+    semestres: [
+      ["ICS001","DEW0","FIS119","HRW2","ACA261","MAT023"],
+      ["ICS002","FIS129","HRW3","ACA262","MAT032","IAC003"]
+    ]
+  },
+  {
+    nombre: "Año 3",
+    semestres: [
+      ["IAC005","IAC004","IAC006","ICS010","ICS009","ACA263"],
+      ["ACA264","IAC007","ICS015","IAC009","ICS013","IAC008"]
+    ]
+  },
+  {
+    nombre: "Año 4",
+    semestres: [
+      ["IAC013","IAC014","IAC012","ACA265","IAC011","IAC010"],
+      ["IAC017","ACA266","IAC015","IAC018","IAC016","IAC019"]
+    ]
+  },
+  {
+    nombre: "Año 5",
+    semestres: [
+      ["IAC023","IAC021","IAC022","IAC024","IAC020","IAC025"],
+      ["IAC027","IAC028","IAC029","IAC030","IAC026","IAC031"]
+    ]
+  }
 ];
-
 // Definición de ramos y requisitos
 const ramos = {
   "MAT060": {nombre:"ÁLGEBRA Y GEOMETRÍA",requisitos:[]},
@@ -88,28 +111,27 @@ anos.forEach(ano => {
   titulo.textContent = ano.nombre;
   col.appendChild(titulo);
 
-  // Dividir en 2 semestres por año
   const semestresWrapper = document.createElement("div");
   semestresWrapper.classList.add("semestres-paralelos");
-  for (let i = 0; i < 2; i++) {
+
+  ano.semestres.forEach((semestre, i) => {
     const semestreDiv = document.createElement("div");
     semestreDiv.classList.add("semestre");
-    semestreDiv.innerHTML = `<h3>Semestre ${i+1}</h3>`;
+    semestreDiv.innerHTML = `<h3>Semestre ${i + 1}</h3>`;
 
-    const semRamos = ano.semestres.slice(i*7,(i+1)*7); 
-    semRamos.forEach(cod => {
-      if (!cod) return;
+    semestre.forEach(cod => {
       const div = document.createElement("div");
       div.classList.add("ramo");
       if (ramos[cod].requisitos.length > 0) div.classList.add("bloqueado");
-
       div.id = cod;
       div.innerHTML = `<strong>${cod}</strong><br>${ramos[cod].nombre}`;
       div.addEventListener("click", () => toggleRamo(cod, div));
       semestreDiv.appendChild(div);
     });
+
     semestresWrapper.appendChild(semestreDiv);
-  }
+  });
+
   col.appendChild(semestresWrapper);
   contenedor.appendChild(col);
 });
